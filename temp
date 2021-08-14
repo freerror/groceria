@@ -1,0 +1,7 @@
+LspReferenceText xxx cterm=bold ctermbg=9 gui=underline guibg=#464646 guisp=#999999                                                                                 
+LspReferenceRead xxx cterm=bold ctermbg=9 gui=underline guibg=#464646 guisp=#999999                                                                                 
+LspReferenceWrite xxx cterm=bold ctermbg=9 gui=underline guibg=#464646 guisp=#999999
+
+hi LspReferenceText guibg=#ada235
+hi LspReferenceRead guibg=#ada235
+hi LspReferenceWrite guibg=#ada235
