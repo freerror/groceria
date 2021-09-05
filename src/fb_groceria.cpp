@@ -352,3 +352,51 @@ frameMain::~frameMain()
 	buttonRecDelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonRecDeleteOnButtonClick ), NULL, this );
 
 }
+
+frameGroceryOutput::frameGroceryOutput( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxSize( 400,950 ), wxDefaultSize );
+
+	wxBoxSizer* bSizerGroceryOutput;
+	bSizerGroceryOutput = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizerframeGroceryOutput;
+	bSizerframeGroceryOutput = new wxBoxSizer( wxVERTICAL );
+
+	textCtrlGroceryOutput = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	bSizerframeGroceryOutput->Add( textCtrlGroceryOutput, 1, wxALL|wxEXPAND, 5 );
+
+
+	bSizerGroceryOutput->Add( bSizerframeGroceryOutput, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizerGroceryOutputStd;
+	bSizerGroceryOutputStd = new wxBoxSizer( wxHORIZONTAL );
+
+	sdbSizerGroceryOutput = new wxStdDialogButtonSizer();
+	sdbSizerGroceryOutputOK = new wxButton( this, wxID_OK );
+	sdbSizerGroceryOutput->AddButton( sdbSizerGroceryOutputOK );
+	sdbSizerGroceryOutput->Realize();
+
+	bSizerGroceryOutputStd->Add( sdbSizerGroceryOutput, 1, wxALIGN_BOTTOM|wxALL, 10 );
+
+
+	bSizerGroceryOutput->Add( bSizerGroceryOutputStd, 0, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizerGroceryOutput );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	this->Connect( wxEVT_SHOW, wxShowEventHandler( frameGroceryOutput::frameGroceryOutputOnShow ) );
+	sdbSizerGroceryOutputOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameGroceryOutput::sdbSizerGroceryOutputOnOKButtonClick ), NULL, this );
+}
+
+frameGroceryOutput::~frameGroceryOutput()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_SHOW, wxShowEventHandler( frameGroceryOutput::frameGroceryOutputOnShow ) );
+	sdbSizerGroceryOutputOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameGroceryOutput::sdbSizerGroceryOutputOnOKButtonClick ), NULL, this );
+
+}

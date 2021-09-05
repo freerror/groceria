@@ -5,7 +5,6 @@
 #include <string>
 #include <algorithm>
 #include <unordered_map>
-#include "clip/clip.h"
 #include "fb_groceria.h"
 #include "fb_groceria.cpp"
 #include <wx/wx.h>
@@ -410,6 +409,25 @@ std::string get_grocery_list(std::vector<Ingredient>& ingredients)
     return grocery_list;
 };
 
+class GroceriaOutputFrame : public frameGroceryOutput
+{
+public:
+    using frameGroceryOutput::frameGroceryOutput;
+
+    void appendGroceryList(std::vector<Ingredient>& ingredients)
+    {
+        textCtrlGroceryOutput->Clear();
+        textCtrlGroceryOutput->AppendText(get_grocery_list(ingredients));
+    }
+
+private:
+    void frameGroceryOutputOnShow(wxShowEvent& event)
+    {
+        // appendGroceryList
+    }
+    void sdbSizerGroceryOutputOnOKButtonClick( wxCommandEvent& event ) { this->Destroy(); }
+};
+
 
 class GroceriaMainFrame : public frameMain
 {
@@ -680,7 +698,10 @@ private:
     }
     void buttonGenerateOnButtonClick( wxCommandEvent& event )
     {
-        clip::set_text(grocery_list);
+        // TODO Open a text box with the grocery list to copy
+        GroceriaOutputFrame *OutputFrame = new GroceriaOutputFrame(NULL, wxID_ANY);
+        OutputFrame->Show(true);
+        OutputFrame->appendGroceryList(ingredients);
     }
     void buttonIngredSaveOnButtonClick( wxCommandEvent& event )
     {
@@ -720,7 +741,9 @@ wxIMPLEMENT_APP(GroceriaApp);
 // it's a chain of derived classes, wx(standard wx) > MainFrame(by wxformbuilder) > MyFrame(own usage)
 bool GroceriaApp::OnInit()
 {
-    wxFrame *GroceriaFrame = new GroceriaMainFrame(NULL, wxID_ANY, argv[0]);
+    // wxFrame *GroceriaFrame = new GroceriaMainFrame(NULL, wxID_ANY, argv[0]);
+    // GroceriaFrame->Show(true);
+    GroceriaMainFrame *GroceriaFrame = new GroceriaMainFrame{NULL, wxID_ANY, argv[0]};
     GroceriaFrame->Show(true);
     return true;
 };

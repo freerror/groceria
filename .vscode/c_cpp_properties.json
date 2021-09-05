@@ -4,7 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/clip",
+                "${workspaceFolder}/include/**",
                 "/usr/lib/wx/include/gtk3-unicode-3.0",
                 "/usr/include/c++/11.1.0/x86_64-pc-linux-gnu"
             ],

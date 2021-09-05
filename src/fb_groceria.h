@@ -25,6 +25,7 @@
 #include <wx/combobox.h>
 #include <wx/notebook.h>
 #include <wx/frame.h>
+#include <wx/textctrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -102,6 +103,31 @@ class frameMain : public wxFrame
 		frameMain( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Groceria - Recipe to Grocery List Generator"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~frameMain();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class frameGroceryOutput
+///////////////////////////////////////////////////////////////////////////////
+class frameGroceryOutput : public wxFrame
+{
+	private:
+
+	protected:
+		wxTextCtrl* textCtrlGroceryOutput;
+		wxStdDialogButtonSizer* sdbSizerGroceryOutput;
+		wxButton* sdbSizerGroceryOutputOK;
+
+		// Virtual event handlers, override them in your derived class
+		virtual void frameGroceryOutputOnShow( wxShowEvent& event ) { event.Skip(); }
+		virtual void sdbSizerGroceryOutputOnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+
+
+	public:
+
+		frameGroceryOutput( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,950 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+
+		~frameGroceryOutput();
 
 };
 
