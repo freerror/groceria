@@ -145,7 +145,7 @@ private:
 //     return 0;
 // };
 
-// TODO Alternative to this function using algorithm
+// TODO alternative using vector index or algorithm
 int find_ingredient_id(std::vector<Ingredient> &ingredients, std::string name)
 {
     for (auto &val : ingredients)
@@ -159,7 +159,7 @@ int find_ingredient_id(std::vector<Ingredient> &ingredients, std::string name)
 };
 
 
-// TODO alternative using algorithm
+// TODO alternative using vector index or algorithm
 template<typename T, typename O, std::size_t N>
 bool in_this_array(T (&arr)[N], O &val)
 {
@@ -170,7 +170,7 @@ bool in_this_array(T (&arr)[N], O &val)
 };
 
 
-// TODO alternative using algorithm
+// TODO alternative using vector index or algorithm
 template<typename T>
 int find_vect_index(std::vector<T> &vect, int id)
 {
@@ -185,6 +185,18 @@ int find_vect_index(std::vector<T> &vect, int id)
     }
     return -1;
 };
+
+// TODO alternative using vector index or algorithm
+std::string get_ingredient_from_id(std::vector<Ingredient>& ingredients, int id)
+{
+    for (auto& ingredient : ingredients)
+    {
+        if (ingredient.get_id() == id)
+        {
+            return ingredient.get_name();
+        }
+    }
+}
 
 // TODO rewrite this for a database
 void parse_prefs(std::vector<Ingredient>& ingredients,
@@ -252,8 +264,51 @@ void parse_prefs(std::vector<Ingredient>& ingredients,
                       << "\n";
         }
     }
+    recfile.close();
+    ingfile.close();
 };
 
+
+bool write_prefs(std::vector<Ingredient>& ingredients,
+                 std::vector<Recipe>& recipes,
+                 const std::string& recipe_file,
+                 const std::string& ingred_file)
+{
+    std::ofstream recfile{recipe_file};
+    std::ofstream ingfile{ingred_file};
+
+    std::string formatted_isle;
+    std::string newline_isle;
+    std::string isle;
+
+    for (auto &ingredient : ingredients) {
+        if (isle != ingredient.get_isle())
+        {
+            isle = ingredient.get_isle();
+            newline_isle = "\n";
+            formatted_isle = "# " + isle + "\n";
+        }
+        else
+        {
+            newline_isle = "";
+            formatted_isle = "";
+
+        }
+        ingfile << newline_isle << formatted_isle
+                << ingredient.get_name() << "\n";
+    }
+    for (auto &recipe : recipes) {
+        recfile << "# " << recipe.get_name() << "\n";
+        for (auto &ing_id : recipe.get_ingreds())
+        {
+            recfile << get_ingredient_from_id(ingredients, ing_id) << "\n";
+        }
+        recfile << "\n";
+    }
+    ingfile.close();
+    recfile.close();
+    return true;
+}
 
 
 void demo_recipe_ingreds(std::vector<Recipe>& recipes, const std::string title)
@@ -380,9 +435,18 @@ std::string get_grocery_list(std::vector<Ingredient>& ingredients)
 {
     std::string cur_isle;
     std::string last_isle;
-    std::string grocery_list = "=== GROCERY LIST ===\n\n";
+    std::string list_item;
+    std::string grocery_list = "## Grocery List\n";
     for (auto &val : ingredients)
     {
+        if (val.get_required() > 1)
+        {
+            list_item = "- [ ] " + val.get_name() + " (" + std::to_string(val.get_required()) + ")" + "\n";
+        }
+        else
+        {
+            list_item = "- [ ] " + val.get_name() + "\n";
+        }
         cur_isle = val.get_isle();
         if (cur_isle == last_isle)
         {
@@ -390,34 +454,52 @@ std::string get_grocery_list(std::vector<Ingredient>& ingredients)
             {
                 if (val.get_required() > 1)
                 {
-                    grocery_list += "- [ ] " + val.get_name() + " (" + std::to_string(val.get_required()) + ")" + "\n";
+                    grocery_list += list_item;
                 }
                 else
                 {
-                    grocery_list += "- [ ] " + val.get_name() + "\n";
+                    grocery_list += list_item;
                 }
             }
         }
         else
         {
-            grocery_list += "== "
+            grocery_list += "### "
                          + cur_isle
-                         + " ==\n";
+                         + "\n"
+                         + list_item;
         }
        last_isle = cur_isle; 
     }
     return grocery_list;
 };
 
+std::string get_meal_list(std::vector<Recipe> recipes)
+{
+    std::string meal_list = "\n## Meals this week\n";
+    for (auto &recipe : recipes)
+    {
+        if (recipe.get_required())
+        {
+            meal_list += "- " + recipe.get_name() +
+                         " (" + std::to_string(recipe.get_required()) + ") " +
+                         "\n";
+        }
+    }
+    return meal_list;
+}
+
 class GroceriaOutputFrame : public frameGroceryOutput
 {
 public:
     using frameGroceryOutput::frameGroceryOutput;
 
-    void appendGroceryList(std::vector<Ingredient>& ingredients)
+    void appendGroceryList(std::vector<Ingredient>& ingredients,
+                           std::vector<Recipe>& recipes)
     {
         textCtrlGroceryOutput->Clear();
         textCtrlGroceryOutput->AppendText(get_grocery_list(ingredients));
+        textCtrlGroceryOutput->AppendText(get_meal_list(recipes));
     }
 
 private:
@@ -698,14 +780,13 @@ private:
     }
     void buttonGenerateOnButtonClick( wxCommandEvent& event )
     {
-        // TODO Open a text box with the grocery list to copy
         GroceriaOutputFrame *OutputFrame = new GroceriaOutputFrame(NULL, wxID_ANY);
         OutputFrame->Show(true);
-        OutputFrame->appendGroceryList(ingredients);
+        OutputFrame->appendGroceryList(ingredients, recipes);
     }
     void buttonIngredSaveOnButtonClick( wxCommandEvent& event )
     {
-        event.Skip();
+        write_prefs(ingredients, recipes, recipe_file, ingred_file);
     }
     void buttonIngredDeleteOnButtonClick( wxCommandEvent& event )
     {
