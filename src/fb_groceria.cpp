@@ -129,33 +129,6 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxBoxSizer* bSizerIngredientsForm;
 	bSizerIngredientsForm = new wxBoxSizer( wxVERTICAL );
 
-	wxBoxSizer* bSizerIngredFormRow1;
-	bSizerIngredFormRow1 = new wxBoxSizer( wxHORIZONTAL );
-
-	staticTextLabelIngredID = new wxStaticText( panelIngredients, wxID_ANY, wxT("ID: "), wxDefaultPosition, wxDefaultSize, 0 );
-	staticTextLabelIngredID->Wrap( -1 );
-	bSizerIngredFormRow1->Add( staticTextLabelIngredID, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	staticTextIngredID = new wxStaticText( panelIngredients, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	staticTextIngredID->Wrap( -1 );
-	bSizerIngredFormRow1->Add( staticTextIngredID, 0, wxALL, 5 );
-
-
-	bSizerIngredientsForm->Add( bSizerIngredFormRow1, 0, wxALL|wxEXPAND, 5 );
-
-	wxBoxSizer* bSizerIngredFormRow2;
-	bSizerIngredFormRow2 = new wxBoxSizer( wxHORIZONTAL );
-
-	staticTextLabelIngredCategory = new wxStaticText( panelIngredients, wxID_ANY, wxT("Category"), wxDefaultPosition, wxDefaultSize, 0 );
-	staticTextLabelIngredCategory->Wrap( -1 );
-	bSizerIngredFormRow2->Add( staticTextLabelIngredCategory, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	comboBoxIngredCategory = new wxComboBox( panelIngredients, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	bSizerIngredFormRow2->Add( comboBoxIngredCategory, 1, wxALL, 5 );
-
-
-	bSizerIngredientsForm->Add( bSizerIngredFormRow2, 0, wxALL|wxEXPAND, 5 );
-
 	wxBoxSizer* bSizerIngredFormRow3;
 	bSizerIngredFormRow3 = new wxBoxSizer( wxHORIZONTAL );
 
@@ -176,8 +149,8 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	staticTextLabelIngredName->Wrap( -1 );
 	bSizerIngredFormRow4->Add( staticTextLabelIngredName, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	comboBoxIngredName = new wxComboBox( panelIngredients, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	bSizerIngredFormRow4->Add( comboBoxIngredName, 1, wxALL, 5 );
+	textCtrlIngredName = new wxTextCtrl( panelIngredients, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizerIngredFormRow4->Add( textCtrlIngredName, 1, wxALL, 5 );
 
 
 	bSizerIngredientsForm->Add( bSizerIngredFormRow4, 0, wxALL|wxEXPAND, 5 );
@@ -215,20 +188,6 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxBoxSizer* bSizerRecipesForm1;
 	bSizerRecipesForm1 = new wxBoxSizer( wxVERTICAL );
 
-	wxBoxSizer* bSizerRecFormRow1;
-	bSizerRecFormRow1 = new wxBoxSizer( wxHORIZONTAL );
-
-	staticTextLabelID1 = new wxStaticText( panelRecipes, wxID_ANY, wxT("ID: "), wxDefaultPosition, wxDefaultSize, 0 );
-	staticTextLabelID1->Wrap( -1 );
-	bSizerRecFormRow1->Add( staticTextLabelID1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	staticTextID1 = new wxStaticText( panelRecipes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	staticTextID1->Wrap( -1 );
-	bSizerRecFormRow1->Add( staticTextID1, 0, wxALL, 5 );
-
-
-	bSizerRecipesForm1->Add( bSizerRecFormRow1, 0, wxALL|wxEXPAND, 5 );
-
 	wxBoxSizer* bSizerRecFormRow2;
 	bSizerRecFormRow2 = new wxBoxSizer( wxHORIZONTAL );
 
@@ -236,8 +195,8 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	staticTextLabelRecCategory->Wrap( -1 );
 	bSizerRecFormRow2->Add( staticTextLabelRecCategory, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	m_comboBox12 = new wxComboBox( panelRecipes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	bSizerRecFormRow2->Add( m_comboBox12, 1, wxALL, 5 );
+	comboBoxReciCategory = new wxComboBox( panelRecipes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
+	bSizerRecFormRow2->Add( comboBoxReciCategory, 1, wxALL, 5 );
 
 
 	bSizerRecipesForm1->Add( bSizerRecFormRow2, 0, wxALL|wxEXPAND, 5 );
@@ -249,8 +208,8 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	staticTextLabelRecName->Wrap( -1 );
 	bSizerRecFormRow3->Add( staticTextLabelRecName, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	m_comboBox1111 = new wxComboBox( panelRecipes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	bSizerRecFormRow3->Add( m_comboBox1111, 1, wxALL, 5 );
+	textCtrlReciName = new wxTextCtrl( panelRecipes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizerRecFormRow3->Add( textCtrlReciName, 1, wxALL, 5 );
 
 
 	bSizerRecipesForm1->Add( bSizerRecFormRow3, 0, wxALL|wxEXPAND, 5 );
@@ -324,8 +283,12 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	listBoxRestockChoices->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRestockChoicesOnListBoxDClick ), NULL, this );
 	buttonClear->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonClearOnButtonClick ), NULL, this );
 	buttonGenerate->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonGenerateOnButtonClick ), NULL, this );
+	listBoxIngredients->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frameMain::listBoxIngredientsOnListBox ), NULL, this );
 	buttonIngredSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonIngredSaveOnButtonClick ), NULL, this );
 	buttonIngredDelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonIngredDeleteOnButtonClick ), NULL, this );
+	listBoxRecipes->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frameMain::listBoxRecipesOnListBox ), NULL, this );
+	listBoxRecAvailIngreds->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecAvailIngredsOnListBoxDClick ), NULL, this );
+	listBoxRecChosenIngreds->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecChosenIngredsOnListBoxDClick ), NULL, this );
 	buttonRecSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonRecSaveOnButtonClick ), NULL, this );
 	buttonRecDelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonRecDeleteOnButtonClick ), NULL, this );
 }
@@ -346,8 +309,12 @@ frameMain::~frameMain()
 	listBoxRestockChoices->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRestockChoicesOnListBoxDClick ), NULL, this );
 	buttonClear->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonClearOnButtonClick ), NULL, this );
 	buttonGenerate->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonGenerateOnButtonClick ), NULL, this );
+	listBoxIngredients->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frameMain::listBoxIngredientsOnListBox ), NULL, this );
 	buttonIngredSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonIngredSaveOnButtonClick ), NULL, this );
 	buttonIngredDelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonIngredDeleteOnButtonClick ), NULL, this );
+	listBoxRecipes->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frameMain::listBoxRecipesOnListBox ), NULL, this );
+	listBoxRecAvailIngreds->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecAvailIngredsOnListBoxDClick ), NULL, this );
+	listBoxRecChosenIngreds->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecChosenIngredsOnListBoxDClick ), NULL, this );
 	buttonRecSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonRecSaveOnButtonClick ), NULL, this );
 	buttonRecDelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonRecDeleteOnButtonClick ), NULL, this );
 

@@ -11,10 +11,10 @@
             "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}/bin",
             "environment": [],
             "externalConsole": false,
-            "MIMode": "lldb",
+            "MIMode": "gdb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -23,7 +23,8 @@
                 }
             ],
             "preLaunchTask": "C/C++: clang++ build active file",
-            "miDebuggerPath": "/home/ruser/bin/lldb-mi"
+            // "miDebuggerPath": "/home/ruser/bin/lldb-mi"
+            // "miDebuggerPath": "/home/ruser/bin/lldb-mi"
         }
     ]
 }

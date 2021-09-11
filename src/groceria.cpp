@@ -21,6 +21,7 @@ public:
         : id(id), name(name)
     {
         this->required_count = 0;
+        this->del = false;
     }
 
     // mutators
@@ -49,6 +50,16 @@ public:
         }
     }
 
+    void set_del(const bool state)
+    {
+        this->del = state;
+    }
+
+    bool deleted()
+    {
+        return this->del;
+    }
+
     int get_required()
     {
         return this->required_count;
@@ -68,6 +79,7 @@ private:
     const int id;
     std::string name;
     int required_count;
+    bool del = false;
 };
 
 
@@ -77,6 +89,11 @@ public:
     Ingredient(int id, std::string name, std::string isle) : Item(id, name)
     {
         this->isle = isle;
+    }
+
+    void set_isle(const std::string isle_name)
+    {
+        this->isle = isle_name;
     }
 
     std::string get_isle()
@@ -145,18 +162,18 @@ private:
 //     return 0;
 // };
 
-// TODO alternative using vector index or algorithm
-int find_ingredient_id(std::vector<Ingredient> &ingredients, std::string name)
-{
-    for (auto &val : ingredients)
-    {
-        if (name == val.get_name())
-        {
-            return val.get_id();
-        }
-    }
-    return -1;
-};
+// // TODO alternative using vector index or algorithm
+// int find_ingredient_id(std::vector<Ingredient> &ingredients, std::string name)
+// {
+//     for (auto &val : ingredients)
+//     {
+//         if (name == val.get_name())
+//         {
+//             return val.get_id();
+//         }
+//     }
+//     return -1;
+// };
 
 
 // TODO alternative using vector index or algorithm
@@ -170,7 +187,7 @@ bool in_this_array(T (&arr)[N], O &val)
 };
 
 
-// TODO alternative using vector index or algorithm
+// Take vector and an index, then return matching integer id or -1 if found
 template<typename T>
 int find_vect_index(std::vector<T> &vect, int id)
 {
@@ -196,6 +213,21 @@ std::string get_ingredient_from_id(std::vector<Ingredient>& ingredients, int id)
             return ingredient.get_name();
         }
     }
+    return "";
+}
+
+std::string get_isle_from_name(std::vector<Ingredient>& ingredients,
+                               std::string& name)
+{
+    for (auto &ingredient : ingredients)
+    {
+        if (name == ingredient.get_name())
+        {
+            return ingredient.get_isle();
+        }
+
+    }
+    return "";
 }
 
 // TODO rewrite this for a database
@@ -210,7 +242,6 @@ void parse_prefs(std::vector<Ingredient>& ingredients,
     std::ifstream recfile{recipe_file};
     std::ifstream ingfile{ingred_file};
     std::string line;
-    std::string cur_isle;
     std::string cur_recipe;
     std::vector<std::string> seen_ingreds;
     std::unordered_map<std::string, std::string> conf_ingreds;  // ingreds broken down by isle
@@ -222,16 +253,12 @@ void parse_prefs(std::vector<Ingredient>& ingredients,
     // Populate ingredients with ingredients
     while (std::getline(ingfile, line, '\n'))
     {
-        // isle reference
-        if (line.find("#") != std::string::npos)
-        {
-            cur_isle = line.substr(2, line.find("/"));
-        }
-        else if (line.length() > 1)
-        {
-            ingredients.push_back({ingred_id, line, cur_isle});
-            ingred_id++;
-        }
+        ingredients.push_back({
+            ingred_id,
+            line.substr(line.find(": ") + 2),
+            line.substr(0, line.find(": "))
+        });
+        ingred_id++;
     }
 
     // make recipe conf
@@ -268,7 +295,6 @@ void parse_prefs(std::vector<Ingredient>& ingredients,
     ingfile.close();
 };
 
-
 bool write_prefs(std::vector<Ingredient>& ingredients,
                  std::vector<Recipe>& recipes,
                  const std::string& recipe_file,
@@ -276,26 +302,20 @@ bool write_prefs(std::vector<Ingredient>& ingredients,
 {
     std::ofstream recfile{recipe_file};
     std::ofstream ingfile{ingred_file};
-
-    std::string formatted_isle;
-    std::string newline_isle;
-    std::string isle;
+    std::vector<std::string> sorted_lines;
 
     for (auto &ingredient : ingredients) {
-        if (isle != ingredient.get_isle())
+        if (ingredient.deleted() != true)
         {
-            isle = ingredient.get_isle();
-            newline_isle = "\n";
-            formatted_isle = "# " + isle + "\n";
+            sorted_lines.push_back(ingredient.get_isle() + ": " + ingredient.get_name() + "\n");
+            // ingfile << ingredient.get_isle() << ": "
+            //         << ingredient.get_name() << "\n";
         }
-        else
-        {
-            newline_isle = "";
-            formatted_isle = "";
-
-        }
-        ingfile << newline_isle << formatted_isle
-                << ingredient.get_name() << "\n";
+    }
+    std::sort(sorted_lines.begin(), sorted_lines.end());
+    for (auto &l : sorted_lines)
+    {
+        ingfile << l;
     }
     for (auto &recipe : recipes) {
         recfile << "# " << recipe.get_name() << "\n";
@@ -407,70 +427,64 @@ void update_ingredients(std::vector<Recipe>& recipes,
         }
         std::cout << "\n";
     }
-    else
-    {
-        std::cout << "Nothing to do\n\n";
-    }
 };
 
 
-void test_scenario(std::vector<Recipe>& recipes,
-                   std::vector<Ingredient>& ingredients)
+// void test_scenario(std::vector<Recipe>& recipes,
+//                    std::vector<Ingredient>& ingredients)
+// {
+//     int choices[4] = {3, 5, 21, 10};
+//     int cur_ingred;
+
+//     for (auto &val : recipes)
+//     {
+//         cur_ingred = val.get_id();
+//         if (in_this_array(choices, cur_ingred))
+//         {
+//             val.increment('+');
+//         }
+//     }
+// };
+
+
+std::vector<std::string> vect_unique_isles(std::vector<Ingredient>& ingreds)
 {
-    int choices[4] = {3, 5, 21, 10};
-    int cur_ingred;
-
-    for (auto &val : recipes)
+    std::vector<std::string> unique_isles;
+    std::vector<std::string>::iterator it;
+    for (auto &ing : ingreds)
     {
-        cur_ingred = val.get_id();
-        if (in_this_array(choices, cur_ingred))
-        {
-            val.increment('+');
-        }
+        unique_isles.push_back(ing.get_isle());
     }
-};
+    std::sort(unique_isles.begin(), unique_isles.end());
+    it = std::unique(unique_isles.begin(), unique_isles.end());
+    unique_isles.resize(std::distance(unique_isles.begin(), it));
+
+    return unique_isles;
+}
 
 
 std::string get_grocery_list(std::vector<Ingredient>& ingredients)
 {
-    std::string cur_isle;
-    std::string last_isle;
-    std::string list_item;
     std::string grocery_list = "## Grocery List\n";
-    for (auto &val : ingredients)
+    std::vector<std::string> unique_isles = vect_unique_isles(ingredients);
+
+    for (auto &isle : unique_isles)
     {
-        if (val.get_required() > 1)
+        grocery_list += "### " + isle + "\n";
+        for (auto &ing : ingredients)
         {
-            list_item = "- [ ] " + val.get_name() + " (" + std::to_string(val.get_required()) + ")" + "\n";
-        }
-        else
-        {
-            list_item = "- [ ] " + val.get_name() + "\n";
-        }
-        cur_isle = val.get_isle();
-        if (cur_isle == last_isle)
-        {
-            if (val.get_required())
+            if (isle == ing.get_isle() && ing.get_required() == 1)
             {
-                if (val.get_required() > 1)
-                {
-                    grocery_list += list_item;
-                }
-                else
-                {
-                    grocery_list += list_item;
-                }
+                grocery_list += "- [ ] " + ing.get_name() + "\n";
+            }
+            else if (isle == ing.get_isle() && ing.get_required() > 1)
+            {
+                grocery_list += "- [ ] " + ing.get_name() +
+                                " (" + std::to_string(ing.get_required()) + ")" + "\n";
             }
         }
-        else
-        {
-            grocery_list += "### "
-                         + cur_isle
-                         + "\n"
-                         + list_item;
-        }
-       last_isle = cur_isle; 
     }
+
     return grocery_list;
 };
 
@@ -479,7 +493,11 @@ std::string get_meal_list(std::vector<Recipe> recipes)
     std::string meal_list = "\n## Meals this week\n";
     for (auto &recipe : recipes)
     {
-        if (recipe.get_required())
+        if (recipe.get_required() == 1)
+        {
+            meal_list += "- " + recipe.get_name() + "\n";
+        }
+        else if (recipe.get_required() > 1)
         {
             meal_list += "- " + recipe.get_name() +
                          " (" + std::to_string(recipe.get_required()) + ") " +
@@ -526,23 +544,6 @@ private:
     std::vector<Ingredient> ingredients;
     const std::string grocery_list = "Test";
 
-    void frameMainOnShow(wxShowEvent& event)
-    {
-        parse_prefs(ingredients, recipes, recipe_file, ingred_file);
-        
-        // test_scenario(recipes, ingredients);
-        // update_ingredients(recipes, ingredients);
-
-        demo_pref_vect(recipes, "Recipes");
-        demo_pref_vect(ingredients, "Ingredients");
-        // demo_recipe_ingreds(recipes, "Recipe to Ingredients");
-        // std::sort(ingredients.begin(), ingredients.end());
-        // std::cout << "\n\n";
-        // std::cout << get_grocery_list(ingredients);
-        // std::cout << "\n";
-        update_stuff();
-    }
-
     void clear_stuff()
     {
             listBoxIngredients->Clear();
@@ -552,24 +553,51 @@ private:
             listBoxRecipeChooser->Clear();
             listBoxRecipeChoices->Clear();
             listBoxRestockChoices->Clear();
+            comboBoxIngredIsle->Clear();
+            textCtrlIngredName->Clear();
+            comboBoxReciCategory->Clear();
+            textCtrlReciName->Clear();
     }
 
 
     void update_stuff()
     {
-        // Populate Ingredients
+        // Sort and Populate Ingredients
+        std::vector<std::string> ui_ingreds;
         for (auto &ingredient : ingredients)
         {
-            listBoxIngredients->Append(ingredient.get_name());
-            listBoxRestockChooser->Append(ingredient.get_name());
-            listBoxRecAvailIngreds->Append(ingredient.get_name());
+            if (ingredient.deleted() != true)
+            {
+                ui_ingreds.push_back(ingredient.get_name());
+            }
+        }
+
+        std::sort(ui_ingreds.begin(), ui_ingreds.end());
+        for (auto &ing : ui_ingreds)
+        {
+            listBoxIngredients->Append(ing);
+            listBoxRestockChooser->Append(ing);
+            listBoxRecAvailIngreds->Append(ing);
+        }
+
+        // Sort and Populate Isles
+        std::vector<std::string> ui_isles = vect_unique_isles(ingredients);
+        for (auto &isle : ui_isles)
+        {
+            comboBoxIngredIsle->Append(isle);
         }
 
         // Populate Recipes
+        std::vector<std::string> ui_recipes;
         for (auto &recipe : recipes)
         {
-            listBoxRecipes->Append(recipe.get_name());
-            listBoxRecipeChooser->Append(recipe.get_name());
+            ui_recipes.push_back(recipe.get_name());
+        }
+        std::sort(ui_recipes.begin(), ui_recipes.end());
+        for (auto &recipe : ui_recipes)
+        {
+            listBoxRecipes->Append(recipe);
+            listBoxRecipeChooser->Append(recipe);
         }
 
         // Populate Choices
@@ -620,17 +648,13 @@ private:
             std::cout << "\n\nChose Recipe: " << listBoxRecipeChooser->GetString(listBoxRecipeChooser->GetSelection()) << "\n";
             for (auto &rec : recipes)
             {
-                if (rec.get_id() == listBoxRecipeChooser->GetSelection())
+                if (rec.get_name() == listBoxRecipeChooser->GetString(listBoxRecipeChooser->GetSelection()))
                 {
                     rec.increment();
                     refresh_outstanding(rec, 1);
-                    break;
+                    return;
                 }
             }
-        }
-        else
-        {
-            // do nothing
         }
     }
 
@@ -655,13 +679,9 @@ private:
                         rec.increment('-');
                         refresh_outstanding(rec, -1);
                     }
-                    break;
+                    return;
                 }
             }
-        }
-        else
-        {
-            // do nothing
         }
     }
 
@@ -678,17 +698,13 @@ private:
                       << "\n";
             for (auto &ingr : ingredients)
             {
-                if (ingr.get_id() == listBoxRestockChooser->GetSelection())
+                if (ingr.get_name() == listBoxRestockChooser->GetString(listBoxRestockChooser->GetSelection()))
                 {
                     ingr.increment();
                     refresh_app();
-                    break;
+                    return;
                 }
             }
-        }
-        else
-        {
-            // do nothing
         }
     }
 
@@ -711,13 +727,9 @@ private:
                         ingr.increment('-');
                     }
                     refresh_app();
-                    break;
+                    return;
                 }
             }
-        }
-        else
-        {
-            // do nothing
         }
     }
 
@@ -734,6 +746,58 @@ private:
         refresh_app();
     }
 
+    void process_ingredient_fields(const bool del=false)
+    {
+        // Get all the fields from the ingredients form
+        const std::string isle = comboBoxIngredIsle->GetValue().ToStdString();
+        const std::string ingred_name = textCtrlIngredName->GetValue().ToStdString();
+    
+        if (ingred_name == "")
+        {
+            return;
+        }
+        for (auto &ing : ingredients)
+        {
+            if (ing.get_name() == ingred_name)
+            {
+                if (del)
+                {
+                    ing.set_del(true);
+                    std::cout << "Deleted " << ing.get_name() << "\n";
+                    return;
+                }
+                else
+                {
+                    ing.set_isle(isle);
+                    ing.set_del(false);
+                    std::cout << "Re-added/Updated isle to " << ing.get_isle() << " for " << ing.get_name() << "\n";
+                    return;
+                }
+            }
+        }
+        // if not existing create new
+        int new_id = ingredients.size();
+        ingredients.push_back({new_id, ingred_name, isle});  // TODO Test
+        std::cout << "Added new ingredient: " << ingred_name << "\n";
+    }
+
+
+    void frameMainOnShow(wxShowEvent& event)
+    {
+        parse_prefs(ingredients, recipes, recipe_file, ingred_file);
+        
+        // test_scenario(recipes, ingredients);
+        // update_ingredients(recipes, ingredients);
+
+        demo_pref_vect(recipes, "Recipes");
+        demo_pref_vect(ingredients, "Ingredients");
+        // demo_recipe_ingreds(recipes, "Recipe to Ingredients");
+        // std::sort(ingredients.begin(), ingredients.end());
+        // std::cout << "\n\n";
+        // std::cout << get_grocery_list(ingredients);
+        // std::cout << "\n";
+        update_stuff();
+    }
     void buttonSelectRecipeChooserOnButtonClick( wxCommandEvent& event )
     {
         commitRecipeChoice();
@@ -784,13 +848,23 @@ private:
         OutputFrame->Show(true);
         OutputFrame->appendGroceryList(ingredients, recipes);
     }
+    void listBoxIngredientsOnListBox( wxCommandEvent& event )
+    {
+        std::string selection = listBoxIngredients->GetStringSelection().ToStdString();
+        textCtrlIngredName->SetValue(selection);
+        comboBoxIngredIsle->SetValue(get_isle_from_name(ingredients, selection));
+    }
     void buttonIngredSaveOnButtonClick( wxCommandEvent& event )
     {
+        process_ingredient_fields();
         write_prefs(ingredients, recipes, recipe_file, ingred_file);
+        refresh_app();
     }
     void buttonIngredDeleteOnButtonClick( wxCommandEvent& event )
     {
-        event.Skip();
+        process_ingredient_fields(true);
+        write_prefs(ingredients, recipes, recipe_file, ingred_file);
+        refresh_app();
     }
     void buttonRecSaveOnButtonClick( wxCommandEvent& event )
     {

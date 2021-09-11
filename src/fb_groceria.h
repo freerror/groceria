@@ -23,9 +23,9 @@
 #include <wx/panel.h>
 #include <wx/stattext.h>
 #include <wx/combobox.h>
+#include <wx/textctrl.h>
 #include <wx/notebook.h>
 #include <wx/frame.h>
-#include <wx/textctrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -54,24 +54,18 @@ class frameMain : public wxFrame
 		wxButton* buttonGenerate;
 		wxPanel* panelIngredients;
 		wxListBox* listBoxIngredients;
-		wxStaticText* staticTextLabelIngredID;
-		wxStaticText* staticTextIngredID;
-		wxStaticText* staticTextLabelIngredCategory;
-		wxComboBox* comboBoxIngredCategory;
 		wxStaticText* staticTextLabelIngredIsle;
 		wxComboBox* comboBoxIngredIsle;
 		wxStaticText* staticTextLabelIngredName;
-		wxComboBox* comboBoxIngredName;
+		wxTextCtrl* textCtrlIngredName;
 		wxButton* buttonIngredSave;
 		wxButton* buttonIngredDelete;
 		wxPanel* panelRecipes;
 		wxListBox* listBoxRecipes;
-		wxStaticText* staticTextLabelID1;
-		wxStaticText* staticTextID1;
 		wxStaticText* staticTextLabelRecCategory;
-		wxComboBox* m_comboBox12;
+		wxComboBox* comboBoxReciCategory;
 		wxStaticText* staticTextLabelRecName;
-		wxComboBox* m_comboBox1111;
+		wxTextCtrl* textCtrlReciName;
 		wxStaticText* staticTextLabelRecIngreds;
 		wxListBox* listBoxRecAvailIngreds;
 		wxListBox* listBoxRecChosenIngreds;
@@ -92,15 +86,19 @@ class frameMain : public wxFrame
 		virtual void listBoxRestockChoicesOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonClearOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonGenerateOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void listBoxIngredientsOnListBox( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonIngredSaveOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonIngredDeleteOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void listBoxRecipesOnListBox( wxCommandEvent& event ) { event.Skip(); }
+		virtual void listBoxRecAvailIngredsOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void listBoxRecChosenIngredsOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonRecSaveOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonRecDeleteOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:
 
-		frameMain( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Groceria - Recipe to Grocery List Generator"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		frameMain( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Groceria - Recipe to Grocery List Generator"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxBORDER_THEME|wxTAB_TRAVERSAL );
 
 		~frameMain();
 
