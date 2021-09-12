@@ -947,7 +947,7 @@ private:
     }
     void buttonIngredDeleteOnButtonClick( wxCommandEvent& event )
     {
-        process_recipe_fields(true);
+        process_ingredient_fields(true);
         write_prefs(ingredients, recipes, recipe_file, ingred_file);
         refresh_app();
     }
