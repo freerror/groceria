@@ -84,23 +84,23 @@ private:
 class Ingredient : public Item
 {
 public:
-    Ingredient(int id, std::string name, std::string isle) : Item(id, name)
+    Ingredient(int id, std::string name, std::string aisle) : Item(id, name)
     {
-        this->isle = isle;
+        this->aisle = aisle;
     }
 
-    void set_isle(const std::string isle_name)
+    void set_aisle(const std::string aisle_name)
     {
-        this->isle = isle_name;
+        this->aisle = aisle_name;
     }
 
-    std::string get_isle()
+    std::string get_aisle()
     {
-        return this->isle;
+        return this->aisle;
     }
 
 private:
-    std::string isle;
+    std::string aisle;
 };
 
 
@@ -219,15 +219,15 @@ std::string get_ingredient_from_id(std::vector<Ingredient>& ingredients, int id)
     return "MISSING";
 }
 
-// given vector of ingredients and a name, returns isle
-std::string get_isle_from_name(std::vector<Ingredient>& ingredients,
+// given vector of ingredients and a name, returns aisle
+std::string get_aisle_from_name(std::vector<Ingredient>& ingredients,
                                const std::string& name)
 {
     for (auto &ingredient : ingredients)
     {
         if (name == ingredient.get_name())
         {
-            return ingredient.get_isle();
+            return ingredient.get_aisle();
         }
 
     }
@@ -246,7 +246,7 @@ void parse_prefs(std::vector<Ingredient>& ingredients,
     std::string line;
     std::string cur_recipe;
     std::vector<std::string> seen_ingreds;
-    std::unordered_map<std::string, std::string> conf_ingreds;  // ingreds broken down by isle
+    std::unordered_map<std::string, std::string> conf_ingreds;  // ingreds broken down by aisle
     int char_pos;
     int recipe_id = 0;
     int ingred_id = 0;
@@ -326,8 +326,8 @@ bool write_prefs(std::vector<Ingredient>& ingredients,
     for (auto &ingredient : ingredients) {
         if (!ingredient.deleted())
         {
-            sorted_lines.push_back(ingredient.get_isle() + ": " + ingredient.get_name() + "\n");
-            // ingfile << ingredient.get_isle() << ": "
+            sorted_lines.push_back(ingredient.get_aisle() + ": " + ingredient.get_name() + "\n");
+            // ingfile << ingredient.get_aisle() << ": "
             //         << ingredient.get_name() << "\n";
         }
     }
@@ -469,37 +469,37 @@ void update_ingredients(std::vector<Recipe>& recipes,
 // };
 
 
-std::vector<std::string> vect_unique_isles(std::vector<Ingredient>& ingreds)
+std::vector<std::string> vect_unique_aisles(std::vector<Ingredient>& ingreds)
 {
-    std::vector<std::string> unique_isles;
+    std::vector<std::string> unique_aisles;
     std::vector<std::string>::iterator it;
     for (auto &ing : ingreds)
     {
-        unique_isles.push_back(ing.get_isle());
+        unique_aisles.push_back(ing.get_aisle());
     }
-    std::sort(unique_isles.begin(), unique_isles.end());
-    it = std::unique(unique_isles.begin(), unique_isles.end());
-    unique_isles.resize(std::distance(unique_isles.begin(), it));
+    std::sort(unique_aisles.begin(), unique_aisles.end());
+    it = std::unique(unique_aisles.begin(), unique_aisles.end());
+    unique_aisles.resize(std::distance(unique_aisles.begin(), it));
 
-    return unique_isles;
+    return unique_aisles;
 }
 
 
 std::string get_grocery_list(std::vector<Ingredient>& ingredients)
 {
     std::string grocery_list = "## Grocery List\n";
-    std::vector<std::string> unique_isles = vect_unique_isles(ingredients);
+    std::vector<std::string> unique_aisles = vect_unique_aisles(ingredients);
 
-    for (auto &isle : unique_isles)
+    for (auto &aisle : unique_aisles)
     {
-        grocery_list += "### " + isle + "\n";
+        grocery_list += "### " + aisle + "\n";
         for (auto &ing : ingredients)
         {
-            if (isle == ing.get_isle() && ing.get_required() == 1)
+            if (aisle == ing.get_aisle() && ing.get_required() == 1)
             {
                 grocery_list += "- [ ] " + ing.get_name() + "\n";
             }
-            else if (isle == ing.get_isle() && ing.get_required() > 1)
+            else if (aisle == ing.get_aisle() && ing.get_required() > 1)
             {
                 grocery_list += "- [ ] " + ing.get_name() +
                                 " (" + std::to_string(ing.get_required()) + ")" + "\n";
@@ -602,11 +602,11 @@ private:
             listBoxRecAvailIngreds->Append(ing);
         }
 
-        // Sort and Populate Isles
-        std::vector<std::string> ui_isles = vect_unique_isles(ingredients);
-        for (auto &isle : ui_isles)
+        // Sort and Populate Aisles
+        std::vector<std::string> ui_aisles = vect_unique_aisles(ingredients);
+        for (auto &aisle : ui_aisles)
         {
-            comboBoxIngredIsle->Append(isle);
+            comboBoxIngredIsle->Append(aisle);
         }
 
         // Populate Recipes
@@ -837,7 +837,7 @@ private:
     void process_ingredient_fields(const bool del=false)
     {
         // Get all the fields from the ingredients form
-        const std::string isle = comboBoxIngredIsle->GetValue().ToStdString();
+        const std::string aisle = comboBoxIngredIsle->GetValue().ToStdString();
         const std::string ingred_name = textCtrlIngredName->GetValue().ToStdString();
     
         if (ingred_name == "") { return; }
@@ -853,16 +853,16 @@ private:
                 }
                 else
                 {
-                    ing.set_isle(isle);
+                    ing.set_aisle(aisle);
                     ing.set_del(false);
-                    std::cout << "Re-added/Updated isle to " << ing.get_isle() << " for " << ing.get_name() << "\n";
+                    std::cout << "Re-added/Updated aisle to " << ing.get_aisle() << " for " << ing.get_name() << "\n";
                     return;
                 }
             }
         }
         // if not existing create new
         int new_id = ingredients.size();
-        ingredients.push_back({new_id, ingred_name, isle});  // TODO Test
+        ingredients.push_back({new_id, ingred_name, aisle});  // TODO Test
         std::cout << "Added new ingredient: " << ingred_name << "\n";
     }
 
@@ -937,7 +937,7 @@ private:
     {
         const std::string selection = listBoxIngredients->GetStringSelection().ToStdString();
         textCtrlIngredName->SetValue(selection);
-        comboBoxIngredIsle->SetValue(get_isle_from_name(ingredients, selection));
+        comboBoxIngredIsle->SetValue(get_aisle_from_name(ingredients, selection));
     }
     void buttonIngredSaveOnButtonClick( wxCommandEvent& event )
     {

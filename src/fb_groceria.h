@@ -123,7 +123,7 @@ class frameGroceryOutput : public wxFrame
 
 	public:
 
-		frameGroceryOutput( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,950 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		frameGroceryOutput( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Grocery List Output"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,950 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~frameGroceryOutput();
 

@@ -132,7 +132,7 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxBoxSizer* bSizerIngredFormRow3;
 	bSizerIngredFormRow3 = new wxBoxSizer( wxHORIZONTAL );
 
-	staticTextLabelIngredIsle = new wxStaticText( panelIngredients, wxID_ANY, wxT("Isle"), wxDefaultPosition, wxSize( -1,-1 ), 0 );
+	staticTextLabelIngredIsle = new wxStaticText( panelIngredients, wxID_ANY, wxT("Aisle"), wxDefaultPosition, wxSize( -1,-1 ), 0 );
 	staticTextLabelIngredIsle->Wrap( -1 );
 	bSizerIngredFormRow3->Add( staticTextLabelIngredIsle, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
