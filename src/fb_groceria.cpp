@@ -188,19 +188,6 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxBoxSizer* bSizerRecipesForm1;
 	bSizerRecipesForm1 = new wxBoxSizer( wxVERTICAL );
 
-	wxBoxSizer* bSizerRecFormRow2;
-	bSizerRecFormRow2 = new wxBoxSizer( wxHORIZONTAL );
-
-	staticTextLabelRecCategory = new wxStaticText( panelRecipes, wxID_ANY, wxT("Category"), wxDefaultPosition, wxDefaultSize, 0 );
-	staticTextLabelRecCategory->Wrap( -1 );
-	bSizerRecFormRow2->Add( staticTextLabelRecCategory, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	comboBoxReciCategory = new wxComboBox( panelRecipes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	bSizerRecFormRow2->Add( comboBoxReciCategory, 1, wxALL, 5 );
-
-
-	bSizerRecipesForm1->Add( bSizerRecFormRow2, 0, wxALL|wxEXPAND, 5 );
-
 	wxBoxSizer* bSizerRecFormRow3;
 	bSizerRecFormRow3 = new wxBoxSizer( wxHORIZONTAL );
 
@@ -284,9 +271,11 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	buttonClear->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonClearOnButtonClick ), NULL, this );
 	buttonGenerate->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonGenerateOnButtonClick ), NULL, this );
 	listBoxIngredients->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frameMain::listBoxIngredientsOnListBox ), NULL, this );
+	listBoxIngredients->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxIngredientsOnListBoxDClick ), NULL, this );
 	buttonIngredSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonIngredSaveOnButtonClick ), NULL, this );
 	buttonIngredDelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonIngredDeleteOnButtonClick ), NULL, this );
 	listBoxRecipes->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frameMain::listBoxRecipesOnListBox ), NULL, this );
+	listBoxRecipes->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecipesOnListBoxDClick ), NULL, this );
 	listBoxRecAvailIngreds->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecAvailIngredsOnListBoxDClick ), NULL, this );
 	listBoxRecChosenIngreds->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecChosenIngredsOnListBoxDClick ), NULL, this );
 	buttonRecSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonRecSaveOnButtonClick ), NULL, this );
@@ -310,9 +299,11 @@ frameMain::~frameMain()
 	buttonClear->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonClearOnButtonClick ), NULL, this );
 	buttonGenerate->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonGenerateOnButtonClick ), NULL, this );
 	listBoxIngredients->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frameMain::listBoxIngredientsOnListBox ), NULL, this );
+	listBoxIngredients->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxIngredientsOnListBoxDClick ), NULL, this );
 	buttonIngredSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonIngredSaveOnButtonClick ), NULL, this );
 	buttonIngredDelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonIngredDeleteOnButtonClick ), NULL, this );
 	listBoxRecipes->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frameMain::listBoxRecipesOnListBox ), NULL, this );
+	listBoxRecipes->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecipesOnListBoxDClick ), NULL, this );
 	listBoxRecAvailIngreds->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecAvailIngredsOnListBoxDClick ), NULL, this );
 	listBoxRecChosenIngreds->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( frameMain::listBoxRecChosenIngredsOnListBoxDClick ), NULL, this );
 	buttonRecSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frameMain::buttonRecSaveOnButtonClick ), NULL, this );

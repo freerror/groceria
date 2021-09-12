@@ -62,8 +62,6 @@ class frameMain : public wxFrame
 		wxButton* buttonIngredDelete;
 		wxPanel* panelRecipes;
 		wxListBox* listBoxRecipes;
-		wxStaticText* staticTextLabelRecCategory;
-		wxComboBox* comboBoxReciCategory;
 		wxStaticText* staticTextLabelRecName;
 		wxTextCtrl* textCtrlReciName;
 		wxStaticText* staticTextLabelRecIngreds;
@@ -87,9 +85,11 @@ class frameMain : public wxFrame
 		virtual void buttonClearOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonGenerateOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void listBoxIngredientsOnListBox( wxCommandEvent& event ) { event.Skip(); }
+		virtual void listBoxIngredientsOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonIngredSaveOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonIngredDeleteOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void listBoxRecipesOnListBox( wxCommandEvent& event ) { event.Skip(); }
+		virtual void listBoxRecipesOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void listBoxRecAvailIngredsOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void listBoxRecChosenIngredsOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void buttonRecSaveOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -98,7 +98,7 @@ class frameMain : public wxFrame
 
 	public:
 
-		frameMain( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Groceria - Recipe to Grocery List Generator"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxBORDER_THEME|wxTAB_TRAVERSAL );
+		frameMain( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Groceria - Recipe to Grocery List Generator"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~frameMain();
 
