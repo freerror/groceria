@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version 3.9.0 Jun 19 2021)
+// C++ code generated with wxFormBuilder (version Oct 26 2018)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
@@ -16,10 +16,10 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/sizer.h>
-#include <wx/button.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
+#include <wx/button.h>
 #include <wx/panel.h>
 #include <wx/stattext.h>
 #include <wx/combobox.h>
@@ -70,7 +70,7 @@ class frameMain : public wxFrame
 		wxButton* buttonRecSave;
 		wxButton* buttonRecDelete;
 
-		// Virtual event handlers, override them in your derived class
+		// Virtual event handlers, overide them in your derived class
 		virtual void frameMainOnShow( wxShowEvent& event ) { event.Skip(); }
 		virtual void listBoxRecipeChooserOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void listBoxRestockChooserOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
@@ -116,7 +116,7 @@ class frameGroceryOutput : public wxFrame
 		wxStdDialogButtonSizer* sdbSizerGroceryOutput;
 		wxButton* sdbSizerGroceryOutputOK;
 
-		// Virtual event handlers, override them in your derived class
+		// Virtual event handlers, overide them in your derived class
 		virtual void frameGroceryOutputOnShow( wxShowEvent& event ) { event.Skip(); }
 		virtual void sdbSizerGroceryOutputOnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
