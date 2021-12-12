@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version 3.9.0 Jun 19 2021)
+// C++ code generated with wxFormBuilder (version Oct 26 2018)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
@@ -17,7 +17,13 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizerMain = new wxBoxSizer( wxVERTICAL );
 
 	notebookTabHolder = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	panelGroceryList = new wxPanel( notebookTabHolder, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	notebookTabHolder->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	notebookTabHolder->SetBackgroundColour( wxColour( 189, 154, 194 ) );
+
+	panelGroceryList = new wxPanel( notebookTabHolder, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME|wxTAB_TRAVERSAL );
+	panelGroceryList->SetForegroundColour( wxColour( 243, 209, 220 ) );
+	panelGroceryList->SetBackgroundColour( wxColour( 243, 209, 220 ) );
+
 	wxBoxSizer* bSizerGroceryList;
 	bSizerGroceryList = new wxBoxSizer( wxVERTICAL );
 
@@ -109,7 +115,7 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizerGroceryListBtm->Add( buttonGenerate, 0, wxALL, 0 );
 
 
-	bSizerGroceryListTop->Add( bSizerGroceryListBtm, 0, wxALIGN_RIGHT|wxALL|wxEXPAND, 5 );
+	bSizerGroceryListTop->Add( bSizerGroceryListBtm, 0, wxALL|wxEXPAND, 5 );
 
 
 	bSizerGroceryList->Add( bSizerGroceryListTop, 1, wxALL|wxEXPAND, 5 );
@@ -120,6 +126,8 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizerGroceryList->Fit( panelGroceryList );
 	notebookTabHolder->AddPage( panelGroceryList, wxT("Grocery List"), true );
 	panelIngredients = new wxPanel( notebookTabHolder, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	panelIngredients->SetBackgroundColour( wxColour( 243, 209, 220 ) );
+
 	wxBoxSizer* bSizerIngredients;
 	bSizerIngredients = new wxBoxSizer( wxHORIZONTAL );
 
@@ -168,7 +176,7 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizerIngredFormRow41->Add( buttonIngredDelete, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 
 
-	bSizerIngredientsForm->Add( bSizerIngredFormRow41, 1, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5 );
+	bSizerIngredientsForm->Add( bSizerIngredFormRow41, 1, wxALL|wxEXPAND, 5 );
 
 
 	bSizerIngredients->Add( bSizerIngredientsForm, 3, wxALL|wxEXPAND, 15 );
@@ -179,6 +187,8 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizerIngredients->Fit( panelIngredients );
 	notebookTabHolder->AddPage( panelIngredients, wxT("Ingredients"), false );
 	panelRecipes = new wxPanel( notebookTabHolder, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	panelRecipes->SetBackgroundColour( wxColour( 243, 209, 220 ) );
+
 	wxBoxSizer* bSizerRecipes;
 	bSizerRecipes = new wxBoxSizer( wxHORIZONTAL );
 
@@ -206,7 +216,7 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 
 	staticTextLabelRecIngreds = new wxStaticText( panelRecipes, wxID_ANY, wxT("Ingredients"), wxDefaultPosition, wxSize( -1,-1 ), 0 );
 	staticTextLabelRecIngreds->Wrap( -1 );
-	bSizerRecFormRow4->Add( staticTextLabelRecIngreds, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	bSizerRecFormRow4->Add( staticTextLabelRecIngreds, 0, wxALL, 5 );
 
 	wxBoxSizer* bSizerRecFormIngreds;
 	bSizerRecFormIngreds = new wxBoxSizer( wxHORIZONTAL );
@@ -236,7 +246,7 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizerRecFormRow5->Add( buttonRecDelete, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 
 
-	bSizerRecipesForm1->Add( bSizerRecFormRow5, 1, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5 );
+	bSizerRecipesForm1->Add( bSizerRecFormRow5, 1, wxALL|wxEXPAND, 5 );
 
 
 	bSizerRecipes->Add( bSizerRecipesForm1, 3, wxALL|wxEXPAND, 15 );
@@ -247,7 +257,7 @@ frameMain::frameMain( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizerRecipes->Fit( panelRecipes );
 	notebookTabHolder->AddPage( panelRecipes, wxT("Recipes"), false );
 
-	bSizerMain->Add( notebookTabHolder, 1, wxEXPAND | wxALL, 5 );
+	bSizerMain->Add( notebookTabHolder, 1, wxEXPAND | wxALL, 0 );
 
 
 	this->SetSizer( bSizerMain );
